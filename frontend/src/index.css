@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f8f9fa;
+    color: #333;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 3px;
+  }
+}
+
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-block bg-sunset-orange text-white px-8 py-3 rounded-full font-semibold
+           hover:bg-sunset-dark transition-all duration-300 hover:shadow-lg
+           hover:-translate-y-0.5 transform cursor-pointer;
+  }
+
+  .btn-outline {
+    @apply inline-block bg-transparent text-white border-2 border-white px-8 py-3
+           rounded-full font-semibold hover:bg-white hover:text-ocean-blue
+           transition-all duration-300 cursor-pointer;
+  }
+
+  .section-title {
+    @apply font-playfair text-4xl font-bold text-deep-navy mb-4;
+  }
+
+  .section-subtitle {
+    @apply text-gray-500 text-lg mb-12 max-w-2xl mx-auto;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl overflow-hidden shadow-md
+           hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 transform;
+  }
+
+  /* Page hero: overlay handled inline in JSX, not via ::after */
+  .page-hero {
+    @apply relative bg-cover bg-center flex items-center justify-center
+           text-white text-center overflow-hidden;
+    height: 420px;
+  }
+}
