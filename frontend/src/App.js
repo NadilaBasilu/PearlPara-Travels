@@ -8,6 +8,7 @@ import Destinations from './pages/Destinations';
 import Tours from './pages/Tours';
 import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
+import DestinationDetail from './pages/DestinationDetail';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -28,13 +29,14 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col overflow-x-hidden">
         <Header />
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/destinations" element={<Destinations />} />
+            <Route path="/destinations/:slug" element={<DestinationDetail />} />
             <Route path="/tours" element={<Tours />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/contact" element={<Contact />} />
