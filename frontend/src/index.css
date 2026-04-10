@@ -5,31 +5,31 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   body {
     margin: 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #f8f9fa;
-    color: #333;
+    background-color: #faf9f7;
+    color: #2a2a2a;
+    overflow-x: hidden;
   }
 
-  * {
-    box-sizing: border-box;
+  h1, h2, h3, h4 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    line-height: 1.2;
   }
 
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #007bff;
-    border-radius: 3px;
-  }
+  * { box-sizing: border-box; }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #f0ede8; }
+  ::-webkit-scrollbar-thumb { background: #1a6eb5; border-radius: 4px; }
 }
 
 @layer utilities {
@@ -45,38 +45,48 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+  .font-display  { font-family: 'Cormorant Garamond', Georgia, serif; }
+  .font-cinzel   { font-family: 'Cinzel', serif; }
 }
 
 @layer components {
+  /* ── Buttons ── */
   .btn-primary {
-    @apply inline-block bg-sunset-orange text-white px-8 py-3 rounded-full font-semibold
-           hover:bg-sunset-dark transition-all duration-300 hover:shadow-lg
-           hover:-translate-y-0.5 transform cursor-pointer;
+    @apply inline-block bg-sunset-orange text-white px-8 py-3 rounded-full
+           font-sans font-semibold tracking-wide
+           hover:bg-sunset-dark transition-all duration-300
+           hover:shadow-lg hover:-translate-y-0.5 transform cursor-pointer;
   }
 
   .btn-outline {
     @apply inline-block bg-transparent text-white border-2 border-white px-8 py-3
-           rounded-full font-semibold hover:bg-white hover:text-ocean-blue
-           transition-all duration-300 cursor-pointer;
+           rounded-full font-sans font-semibold tracking-wide
+           hover:bg-white hover:text-ocean-blue transition-all duration-300 cursor-pointer;
+  }
+
+  /* ── Typography ── */
+  .section-label {
+    @apply font-cinzel text-xs font-semibold tracking-widest uppercase text-sunset-orange;
   }
 
   .section-title {
-    @apply font-playfair text-4xl font-bold text-deep-navy mb-4;
+    @apply font-display text-4xl md:text-5xl font-bold text-deep-navy mb-4 leading-tight;
   }
 
   .section-subtitle {
-    @apply text-gray-500 text-lg mb-12 max-w-2xl mx-auto;
+    @apply font-sans text-warm-gray text-lg mb-12 max-w-2xl mx-auto leading-relaxed;
   }
 
+  /* ── Cards ── */
   .card {
-    @apply bg-white rounded-2xl overflow-hidden shadow-md
-           hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 transform;
+    @apply bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100
+           hover:shadow-xl transition-all duration-300 hover:-translate-y-2 transform;
   }
 
-  /* Page hero: overlay handled inline in JSX, not via ::after */
+  /* ── Page Hero ── */
   .page-hero {
     @apply relative bg-cover bg-center flex items-center justify-center
            text-white text-center overflow-hidden;
-    height: 420px;
+    height: 460px;
   }
 }
