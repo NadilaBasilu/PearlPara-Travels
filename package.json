@@ -1,0 +1,13 @@
+{
+  "name": "pearlpara-travels",
+  "version": "1.0.0",
+  "description": "MERN Tourism Website for Sri Lanka",
+  "scripts": {
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\"",
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
