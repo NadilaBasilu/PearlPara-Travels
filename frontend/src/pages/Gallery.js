@@ -1,19 +1,46 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import sigiriya from '../assets/Images/Sigiriya.jpg';
+import gallefort from '../assets/Images/Gallefort.jpg';
+import hikkaduwa from '../assets/Images/Hikkaduwa.jpg';
+import marblebeach from '../assets/Images/Marblebeach.jpg';
+import nilaveli from '../assets/Images/Nilaveli.jpg';
+import ninearch from '../assets/Images/Ninearch.jpg';
+import adisham from '../assets/Images/Adisham.jpg';
+import udawalawe from '../assets/Images/Udawalawe.jpg';
+import yala from '../assets/Images/Yala.jpg';
+
 const images = [
-  { src: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=800&q=80', title: 'Sigiriya Rock Fortress', tall: true },
-  { src: 'https://images.unsplash.com/photo-1582515073490-39981397c445?auto=format&fit=crop&w=800&q=80', title: 'Mirissa Beach' },
-  { src: 'https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=800&q=80', title: 'Ella Nine Arch Bridge' },
-  { src: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80', title: 'Yala National Park', tall: true },
-  { src: 'https://images.unsplash.com/photo-1544008230-ac1e1fb4f4f4?auto=format&fit=crop&w=800&q=80', title: 'Temple of the Tooth' },
-  { src: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?auto=format&fit=crop&w=800&q=80', title: 'Tea Plantations' },
-  { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80', title: 'Horton Plains', tall: true },
-  { src: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=800&q=80', title: 'Galle Fort' },
+  { src: sigiriya,    title: 'Sigiriya Rock Fortress',    tag: 'Cultural',  tall: true },
+  { src: hikkaduwa,  title: 'Hikkaduwa Beach',            tag: 'Beach' },
+  { src: ninearch,   title: 'Nine Arch Bridge',            tag: 'Mountains', tall: true },
+  { src: gallefort,  title: 'Galle Fort',                  tag: 'Cultural' },
+  { src: yala,       title: 'Yala National Park',          tag: 'Wildlife',  tall: true },
+  { src: nilaveli,   title: 'Nilaveli Beach',              tag: 'Beach' },
+  { src: udawalawe,  title: 'Udawalawe National Park',     tag: 'Wildlife',  tall: true },
+  { src: marblebeach,title: 'Marble Beach',                tag: 'Beach' },
+  { src: adisham,    title: 'Adisham Bungalow',            tag: 'Mountains', tall: true },
 ];
 
 const Gallery = () => {
-  const [selected, setSelected] = useState(null);
+  const [selectedIdx, setSelectedIdx] = useState(null);
+
+  const prev = () => setSelectedIdx(i => (i - 1 + images.length) % images.length);
+  const next = () => setSelectedIdx(i => (i + 1) % images.length);
+
+  React.useEffect(() => {
+    if (selectedIdx === null) return;
+    const onKey = e => {
+      if (e.key === 'Escape') setSelectedIdx(null);
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [selectedIdx]);
+
+  const selected = selectedIdx !== null ? images[selectedIdx] : null;
 
   return (
     <div className="pt-24 pb-20 px-6 max-w-7xl mx-auto">
@@ -24,23 +51,26 @@ const Gallery = () => {
       </div>
 
       {/* Masonry Grid */}
-      <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+      <div className="columns-1 sm:columns-2 lg:columns-3 gap-5" style={{ columnGap: '1.25rem' }}>
         {images.map((img, i) => (
           <motion.div
             key={i}
-            className="break-inside-avoid relative group cursor-pointer rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow"
+            className="break-inside-avoid relative group cursor-pointer rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-shadow duration-300"
+            style={{ marginBottom: '1.25rem', breakInside: 'avoid' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.07 }}
-            onClick={() => setSelected(img)}
+            transition={{ delay: i * 0.06, duration: 0.5 }}
+            onClick={() => setSelectedIdx(i)}
           >
             <img
               src={img.src}
               alt={img.title}
-              className={`w-full object-cover group-hover:scale-105 transition-transform duration-500 ${img.tall ? 'h-72' : 'h-48'}`}
+              className="w-full object-cover block group-hover:scale-105 transition-transform duration-500"
+              style={{ height: img.tall ? '300px' : '210px' }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-              <p className="text-white font-semibold font-playfair text-lg">{img.title}</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+              <span className="text-xs font-bold text-sunset-orange uppercase tracking-widest mb-1">{img.tag}</span>
+              <p className="text-white font-playfair text-lg font-bold leading-tight">{img.title}</p>
             </div>
           </motion.div>
         ))}
@@ -50,28 +80,52 @@ const Gallery = () => {
       <AnimatePresence>
         {selected && (
           <motion.div
-            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSelected(null)}
+            onClick={() => setSelectedIdx(null)}
           >
+            {/* Prev */}
+            <button
+              className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/25 rounded-full text-white text-3xl flex items-center justify-center transition-colors z-10"
+              onClick={e => { e.stopPropagation(); prev(); }}
+              aria-label="Previous"
+            >‹</button>
+
             <motion.div
-              className="relative max-w-4xl w-full"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
+              className="relative max-w-5xl w-full"
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.85, opacity: 0 }}
+              transition={{ duration: 0.25 }}
               onClick={e => e.stopPropagation()}
             >
-              <img src={selected.src} alt={selected.title} className="w-full rounded-2xl shadow-2xl max-h-[80vh] object-contain" />
-              <p className="text-white text-center font-playfair text-xl mt-4">{selected.title}</p>
-              <button
-                className="absolute -top-4 -right-4 w-10 h-10 bg-sunset-orange rounded-full text-white font-bold text-lg hover:bg-sunset-dark transition-colors"
-                onClick={() => setSelected(null)}
-              >
-                ×
-              </button>
+              <img
+                src={selected.src}
+                alt={selected.title}
+                className="w-full rounded-2xl shadow-2xl max-h-[80vh] object-contain mx-auto block"
+              />
+              <div className="text-center mt-4">
+                <span className="text-sunset-orange text-xs font-bold uppercase tracking-widest">{selected.tag}</span>
+                <p className="text-white font-playfair text-2xl font-bold mt-1">{selected.title}</p>
+                <p className="text-white/40 text-xs mt-2">{selectedIdx + 1} / {images.length}</p>
+              </div>
             </motion.div>
+
+            {/* Next */}
+            <button
+              className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/25 rounded-full text-white text-3xl flex items-center justify-center transition-colors z-10"
+              onClick={e => { e.stopPropagation(); next(); }}
+              aria-label="Next"
+            >›</button>
+
+            {/* Close */}
+            <button
+              className="absolute top-4 right-4 w-10 h-10 bg-sunset-orange hover:bg-sunset-dark rounded-full text-white text-xl font-bold flex items-center justify-center transition-colors"
+              onClick={() => setSelectedIdx(null)}
+              aria-label="Close"
+            >×</button>
           </motion.div>
         )}
       </AnimatePresence>
