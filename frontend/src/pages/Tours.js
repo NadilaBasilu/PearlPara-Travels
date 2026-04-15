@@ -5,6 +5,8 @@ import axios from 'axios';
 import { FiClock, FiUsers, FiArrowRight } from 'react-icons/fi';
 import { FaStar } from 'react-icons/fa';
 
+import srilanka1 from '../assets/Images/Srilanka1.jpg';
+
 const API = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const filters = [
@@ -67,7 +69,7 @@ const Tours = () => {
       {/* ── Hero ── */}
       <div
         className="page-hero"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1920&q=85')" }}
+        style={{ backgroundImage: `url(${srilanka1})` }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/50" />
         <div className="relative z-10 pt-20 px-6 text-center">
