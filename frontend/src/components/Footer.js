@@ -111,7 +111,7 @@ const Footer = () => {
           <p>© {new Date().getFullYear()} PearlPara Travels. All rights reserved.</p>
           <div className="flex gap-6">
             <Link to="/privacy-policy" className="hover:text-gray-300 transition-colors text-gray-500 no-underline text-sm">Privacy Policy</Link>
-            <Link to="/privacy-policy" className="hover:text-gray-300 transition-colors text-gray-500 no-underline text-sm">Terms of Service</Link>
+            <Link to="/terms-of-service" className="hover:text-gray-300 transition-colors text-gray-500 no-underline text-sm">Terms of Service</Link>
           </div>
         </div>
       </div>
