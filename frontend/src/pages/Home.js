@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 import { MdBeachAccess, MdForest, MdOutlineExplore } from 'react-icons/md';
 import { GiElephant, GiAncientColumns } from 'react-icons/gi';
 import { FaStar, FaMapMarkerAlt, FaQuoteLeft } from 'react-icons/fa';
 import { HiArrowRight } from 'react-icons/hi';
-
 import sigiriya  from '../assets/Images/Sigiriya.jpg';
 import gallefort from '../assets/Images/Gallefort.jpg';
 import ninearch  from '../assets/Images/Ninearch.jpg';
+
+const API = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const stats = [
   { value: '500+', label: 'Happy Travelers' },
@@ -30,10 +32,10 @@ const highlights = [
   { img: ninearch,  name: 'Nine Arch Bridge', category: 'Mountains', desc: 'Iconic colonial viaduct through lush tea estates',     slug: 'nine-arch-bridge' },
 ];
 
-const testimonials = [
-  { name: 'Sarah M.',  country: 'United Kingdom', text: 'Absolutely magical trip! PearlPara handled everything perfectly. Sri Lanka exceeded every expectation.', rating: 5 },
-  { name: 'James K.',  country: 'Australia',      text: 'The wildlife safari at Yala was the highlight of our lives. Incredible service from start to finish.',   rating: 5 },
-  { name: 'Priya R.',  country: 'India',          text: 'From Sigiriya to Galle, every destination was breathtaking. Highly recommend PearlPara Travels!',        rating: 5 },
+const staticTestimonials = [
+  { _id: 's1', name: 'Sarah M.',  country: 'United Kingdom', text: 'Absolutely magical trip! PearlPara handled everything perfectly. Sri Lanka exceeded every expectation.', rating: 5 },
+  { _id: 's2', name: 'James K.',  country: 'Australia',      text: 'The wildlife safari at Yala was the highlight of our lives. Incredible service from start to finish.',   rating: 5 },
+  { _id: 's3', name: 'Priya R.',  country: 'India',          text: 'From Sigiriya to Galle, every destination was breathtaking. Highly recommend PearlPara Travels!',        rating: 5 },
 ];
 
 const container = { hidden: {}, visible: { transition: { staggerChildren: 0.14 } } };
@@ -41,6 +43,13 @@ const item      = { hidden: { opacity: 0, y: 36 }, visible: { opacity: 1, y: 0, 
 
 const Home = () => {
   const navigate = useNavigate();
+  const [testimonials, setTestimonials] = useState(staticTestimonials);
+
+  useEffect(() => {
+    axios.get(`${API}/api/testimonials`)
+      .then(res => { if (res.data.length > 0) setTestimonials(res.data); })
+      .catch(() => {}); // keep static fallback on error
+  }, []);
 
   return (
     <div>
@@ -184,8 +193,8 @@ const Home = () => {
         <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8"
           variants={container} initial="hidden" whileInView="visible" viewport={{ once: true }}
         >
-          {testimonials.map(({ name, country, text, rating }) => (
-            <motion.div key={name} variants={item}
+          {testimonials.map(({ _id, name, country, text, rating, tour }) => (
+            <motion.div key={_id} variants={item}
               className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-shadow"
             >
               <FaQuoteLeft size={24} className="text-gold mb-4 opacity-60" />
@@ -202,6 +211,7 @@ const Home = () => {
                   <p className="font-sans text-warm-gray text-xs flex items-center gap-1">
                     <FaMapMarkerAlt size={10} /> {country}
                   </p>
+                  {tour && <p className="font-sans text-xs text-ocean-blue mt-0.5">{tour}</p>}
                 </div>
               </div>
             </motion.div>
