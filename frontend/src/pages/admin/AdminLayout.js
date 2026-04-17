@@ -1,20 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FiGrid, FiMap, FiLogOut, FiMenu, FiX, FiGlobe, FiPlus } from 'react-icons/fi';
+import { FiGrid, FiMap, FiLogOut, FiMenu, FiX, FiGlobe, FiPlus, FiMail } from 'react-icons/fi';
 import { MdOutlineTour } from 'react-icons/md';
+import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 
 const navItems = [
-  { to: '/admin/dashboard', icon: FiGrid,          label: 'Dashboard' },
-  { to: '/admin/tours',     icon: MdOutlineTour,   label: 'Tour Packages' },
-  { to: '/admin/tours/new', icon: FiPlus,          label: 'Add New Tour' },
+  { to: '/admin/dashboard', icon: FiGrid,        label: 'Dashboard' },
+  { to: '/admin/tours',     icon: MdOutlineTour, label: 'Tour Packages' },
+  { to: '/admin/tours/new', icon: FiPlus,        label: 'Add New Tour' },
+  { to: '/admin/messages',  icon: FiMail,        label: 'Messages' },
 ];
+
+const API = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const AdminLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const { user, logout }              = useAuth();
+  const [unread,      setUnread]      = useState(0);
+  const { user, logout, authHeader }  = useAuth();
   const location                      = useLocation();
   const navigate                      = useNavigate();
+
+  useEffect(() => {
+    axios.get(`${API}/api/contact`, authHeader())
+      .then(res => setUnread(res.data.filter(m => !m.read).length))
+      .catch(() => {});
+  }, [location.pathname]);
 
   const handleLogout = () => { logout(); navigate('/admin/login'); };
 
@@ -48,7 +59,12 @@ const AdminLayout = ({ children }) => {
                 }`}
               >
                 <Icon size={20} className="flex-shrink-0" />
-                {sidebarOpen && <span className="font-sans text-sm font-medium">{label}</span>}
+                {sidebarOpen && <span className="font-sans text-sm font-medium flex-1">{label}</span>}
+                {sidebarOpen && to === '/admin/messages' && unread > 0 && (
+                  <span className="w-5 h-5 rounded-full bg-sunset-orange text-white text-xs font-bold flex items-center justify-center">
+                    {unread}
+                  </span>
+                )}
               </Link>
             );
           })}
