@@ -43,12 +43,18 @@ const item      = { hidden: { opacity: 0, y: 36 }, visible: { opacity: 1, y: 0, 
 
 const Home = () => {
   const navigate = useNavigate();
-  const [testimonials, setTestimonials] = useState(staticTestimonials);
+  const [testimonials, setTestimonials] = useState([]);
+  const [testimonialsLoaded, setTestimonialsLoaded] = useState(false);
 
   useEffect(() => {
     axios.get(`${API}/api/testimonials`)
-      .then(res => { if (res.data.length > 0) setTestimonials(res.data); })
-      .catch(() => {}); // keep static fallback on error
+      .then(res => {
+        setTestimonials(res.data.length > 0 ? res.data : staticTestimonials);
+      })
+      .catch(() => {
+        setTestimonials(staticTestimonials);
+      })
+      .finally(() => setTestimonialsLoaded(true));
   }, []);
 
   return (
@@ -190,33 +196,64 @@ const Home = () => {
           <span className="section-label">Traveler Stories</span>
           <h2 className="section-title mt-3">What Our Guests Say</h2>
         </div>
-        <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8"
-          variants={container} initial="hidden" whileInView="visible" viewport={{ once: true }}
-        >
-          {testimonials.map(({ _id, name, country, text, rating, tour }) => (
-            <motion.div key={_id} variants={item}
-              className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-shadow"
-            >
-              <FaQuoteLeft size={24} className="text-gold mb-4 opacity-60" />
-              <div className="flex gap-1 mb-4">
-                {Array(rating).fill(0).map((_, i) => <FaStar key={i} size={14} className="text-gold" />)}
-              </div>
-              <p className="font-sans text-warm-gray leading-relaxed mb-6 italic text-sm">"{text}"</p>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-ocean-blue/10 flex items-center justify-center font-display text-lg font-bold text-ocean-blue">
-                  {name[0]}
+
+        {/* Skeleton while loading */}
+        {!testimonialsLoaded && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[1,2,3].map(i => (
+              <div key={i} className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 animate-pulse">
+                <div className="w-6 h-6 bg-gray-200 rounded mb-4" />
+                <div className="flex gap-1 mb-4">{[1,2,3,4,5].map(s => <div key={s} className="w-3 h-3 bg-gray-200 rounded" />)}</div>
+                <div className="space-y-2 mb-6">
+                  <div className="h-3 bg-gray-200 rounded w-full" />
+                  <div className="h-3 bg-gray-200 rounded w-5/6" />
+                  <div className="h-3 bg-gray-200 rounded w-4/6" />
                 </div>
-                <div>
-                  <p className="font-sans font-semibold text-deep-navy text-sm">{name}</p>
-                  <p className="font-sans text-warm-gray text-xs flex items-center gap-1">
-                    <FaMapMarkerAlt size={10} /> {country}
-                  </p>
-                  {tour && <p className="font-sans text-xs text-ocean-blue mt-0.5">{tour}</p>}
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gray-200" />
+                  <div className="space-y-1.5">
+                    <div className="h-3 bg-gray-200 rounded w-20" />
+                    <div className="h-2.5 bg-gray-200 rounded w-16" />
+                  </div>
                 </div>
               </div>
-            </motion.div>
-          ))}
-        </motion.div>
+            ))}
+          </div>
+        )}
+
+        {/* Testimonial cards */}
+        {testimonialsLoaded && (
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            variants={container}
+            initial="hidden"
+            animate="visible"
+          >
+            {testimonials.map(({ _id, name, country, text, rating, tour }) => (
+              <motion.div key={_id} variants={item}
+                className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-shadow"
+              >
+                <FaQuoteLeft size={24} className="text-gold mb-4 opacity-60" />
+                <div className="flex gap-1 mb-4">
+                  {Array(rating).fill(0).map((_, i) => <FaStar key={i} size={14} className="text-gold" />)}
+                </div>
+                <p className="font-sans text-warm-gray leading-relaxed mb-6 italic text-sm">"{text}"</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-ocean-blue/10 flex items-center justify-center font-display text-lg font-bold text-ocean-blue">
+                    {name[0]}
+                  </div>
+                  <div>
+                    <p className="font-sans font-semibold text-deep-navy text-sm">{name}</p>
+                    <p className="font-sans text-warm-gray text-xs flex items-center gap-1">
+                      <FaMapMarkerAlt size={10} /> {country}
+                    </p>
+                    {tour && <p className="font-sans text-xs text-ocean-blue mt-0.5">{tour}</p>}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
       </section>
 
       {/* ── CTA ── */}
