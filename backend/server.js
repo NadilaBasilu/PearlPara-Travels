@@ -34,6 +34,7 @@ app.use('/api/upload',       require('./routes/upload'));
 app.use('/api/destinations', require('./routes/destinations'));
 app.use('/api/tours',        require('./routes/tours'));
 app.use('/api/contact',      require('./routes/contact'));
+app.use('/api/testimonials', require('./routes/testimonials'));
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
