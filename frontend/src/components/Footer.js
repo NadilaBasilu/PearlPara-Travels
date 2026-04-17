@@ -110,8 +110,8 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3 text-gray-500 text-sm">
           <p>© {new Date().getFullYear()} PearlPara Travels. All rights reserved.</p>
           <div className="flex gap-6">
-            <button type="button" className="hover:text-gray-300 transition-colors text-gray-500 bg-transparent border-0 cursor-pointer text-sm p-0">Privacy Policy</button>
-            <button type="button" className="hover:text-gray-300 transition-colors text-gray-500 bg-transparent border-0 cursor-pointer text-sm p-0">Terms of Service</button>
+            <Link to="/privacy-policy" className="hover:text-gray-300 transition-colors text-gray-500 no-underline text-sm">Privacy Policy</Link>
+            <Link to="/privacy-policy" className="hover:text-gray-300 transition-colors text-gray-500 no-underline text-sm">Terms of Service</Link>
           </div>
         </div>
       </div>
