@@ -69,3 +69,6 @@ A live demo will be available soon.
 - Client-server architecture  
 
 ---
+
+## 📄 License
+This project is licensed under the MIT License.
