@@ -15,10 +15,12 @@ import DestinationDetail from './pages/DestinationDetail';
 import TourDetail       from './pages/TourDetail';
 import PrivacyPolicy   from './pages/PrivacyPolicy';
 import TermsOfService  from './pages/TermsOfService';
+import CookieBanner    from './components/CookieBanner';
 
 import AdminLogin     from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import TourForm       from './pages/admin/TourForm';
+import AdminMessages  from './pages/admin/AdminMessages';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -49,6 +51,7 @@ function App() {
     <AuthProvider>
       <Router>
         <ScrollToTop />
+        <CookieBanner />
         <Routes>
 
           {/* ── Admin Routes (no Header/Footer) ── */}
@@ -57,6 +60,7 @@ function App() {
           <Route path="/admin/tours"     element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
           <Route path="/admin/tours/new" element={<ProtectedRoute><TourForm /></ProtectedRoute>} />
           <Route path="/admin/tours/edit/:id" element={<ProtectedRoute><TourForm /></ProtectedRoute>} />
+          <Route path="/admin/messages"        element={<ProtectedRoute><AdminMessages /></ProtectedRoute>} />
 
           {/* ── Public Routes (with Header/Footer) ── */}
           <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
