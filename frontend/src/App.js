@@ -20,7 +20,8 @@ import CookieBanner    from './components/CookieBanner';
 import AdminLogin     from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import TourForm       from './pages/admin/TourForm';
-import AdminMessages  from './pages/admin/AdminMessages';
+import AdminMessages      from './pages/admin/AdminMessages';
+import AdminTestimonials  from './pages/admin/AdminTestimonials';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -61,6 +62,7 @@ function App() {
           <Route path="/admin/tours/new" element={<ProtectedRoute><TourForm /></ProtectedRoute>} />
           <Route path="/admin/tours/edit/:id" element={<ProtectedRoute><TourForm /></ProtectedRoute>} />
           <Route path="/admin/messages"        element={<ProtectedRoute><AdminMessages /></ProtectedRoute>} />
+          <Route path="/admin/testimonials"     element={<ProtectedRoute><AdminTestimonials /></ProtectedRoute>} />
 
           {/* ── Public Routes (with Header/Footer) ── */}
           <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
