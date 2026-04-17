@@ -12,7 +12,8 @@ import Tours from './pages/Tours';
 import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
 import DestinationDetail from './pages/DestinationDetail';
-import TourDetail from './pages/TourDetail';
+import TourDetail       from './pages/TourDetail';
+import PrivacyPolicy   from './pages/PrivacyPolicy';
 
 import AdminLogin     from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -65,6 +66,7 @@ function App() {
           <Route path="/tours/:slug" element={<PublicLayout><TourDetail /></PublicLayout>} />
           <Route path="/gallery" element={<PublicLayout><Gallery /></PublicLayout>} />
           <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
+          <Route path="/privacy-policy" element={<PublicLayout><PrivacyPolicy /></PublicLayout>} />
           <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
 
         </Routes>
