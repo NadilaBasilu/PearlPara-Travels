@@ -51,20 +51,23 @@ const Destinations = () => {
   const [destinations, setDestinations] = useState([]);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     setLoading(true);
     axios.get(`${API}/api/destinations`)
-      .then(res => { setDestinations(res.data); setLoading(false); })
-      .catch(() => { setError('Failed to load destinations. Please try again.'); setLoading(false); });
+      .then(res => {
+        setDestinations(res.data.length > 0 ? res.data : localDestinations);
+        setLoading(false);
+      })
+      .catch(() => {
+        setDestinations(localDestinations);
+        setLoading(false);
+      });
   }, []);
 
   const navigate = useNavigate();
 
-  // Use local destinations as fallback when API returns empty
-  const source = destinations.length > 0 ? destinations : localDestinations;
-  const filtered = filter === 'all' ? source : source.filter(d => d.category === filter);
+  const filtered = filter === 'all' ? destinations : destinations.filter(d => d.category === filter);
 
   const getSlug = (dest) => {
     const match = destinationsData.find(d => d.id === dest._id);
@@ -97,11 +100,6 @@ const Destinations = () => {
         ))}
       </div>
 
-      {/* Error */}
-      {error && (
-        <div className="text-center py-16 text-red-500 bg-red-50 rounded-2xl">{error}</div>
-      )}
-
       {/* Grid */}
       <AnimatePresence mode="wait">
         <motion.div
@@ -121,7 +119,7 @@ const Destinations = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.07, duration: 0.45 }}
-                onClick={() => { const slug = getSlug(dest); if (slug) navigate(`/destinations/${slug}`); }}
+                onClick={() => { const slug = getSlug(dest); slug ? navigate(`/destinations/${slug}`) : navigate('/contact'); }}
               >
                 <div className="relative overflow-hidden h-56">
                   <img
@@ -137,11 +135,11 @@ const Destinations = () => {
                   )}
                 </div>
                 <div className="p-5">
-                  <h3 className="font-playfair text-xl font-bold text-deep-navy mb-2">{dest.name}</h3>
+                  <h3 className="font-display text-xl font-bold text-deep-navy mb-2">{dest.name}</h3>
                   <p className="text-gray-500 text-sm leading-relaxed mb-4 line-clamp-2">{dest.description}</p>
                   <button
                     className="btn-primary text-sm py-2 px-5"
-                    onClick={e => { e.stopPropagation(); const slug = getSlug(dest); if (slug) navigate(`/destinations/${slug}`); }}
+                    onClick={e => { e.stopPropagation(); const slug = getSlug(dest); slug ? navigate(`/destinations/${slug}`) : navigate('/contact'); }}
                   >Explore →</button>
                 </div>
               </motion.div>
@@ -150,7 +148,7 @@ const Destinations = () => {
         </motion.div>
       </AnimatePresence>
 
-      {!loading && !error && filtered.length === 0 && (
+      {!loading && filtered.length === 0 && (
         <div className="text-center py-16 text-gray-400">
           <div className="text-5xl mb-4">🔍</div>
           <p className="text-lg">No destinations found for "{filter}".</p>
