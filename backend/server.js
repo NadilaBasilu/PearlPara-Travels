@@ -1,12 +1,18 @@
-const express  = require('express');
-const mongoose = require('mongoose');
-const cors     = require('cors');
-const dotenv   = require('dotenv');
-const path     = require('path');
+const express        = require('express');
+const mongoose       = require('mongoose');
+const cors           = require('cors');
+const dotenv         = require('dotenv');
+const path           = require('path');
+const helmet         = require('helmet');
+const rateLimit      = require('express-rate-limit');
+const mongoSanitize  = require('express-mongo-sanitize');
 
 dotenv.config();
 
 const app = express();
+
+// Security headers
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 
 app.use(cors({
   origin:         process.env.CLIENT_URL || 'http://localhost:3000',
@@ -15,7 +21,19 @@ app.use(cors({
   credentials:    true,
 }));
 
-app.use(express.json());
+// Body size limit + NoSQL injection sanitization
+app.use(express.json({ limit: '10kb' }));
+app.use(mongoSanitize());
+
+// Rate limiting on auth routes
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20,
+  message: { message: 'Too many requests, please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use('/api/auth', authLimiter);
 
 // Serve uploaded images as static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
