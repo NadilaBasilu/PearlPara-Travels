@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FiGrid, FiLogOut, FiMenu, FiX, FiGlobe, FiPlus, FiMail, FiStar } from 'react-icons/fi';
+import { FiGrid, FiLogOut, FiMenu, FiX, FiGlobe, FiPlus, FiMail, FiStar, FiLock } from 'react-icons/fi';
 import { MdOutlineTour } from 'react-icons/md';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 
 const navItems = [
-  { to: '/admin/dashboard',    icon: FiGrid,        label: 'Dashboard' },
-  { to: '/admin/tours',        icon: MdOutlineTour, label: 'Tour Packages' },
-  { to: '/admin/tours/new',    icon: FiPlus,        label: 'Add New Tour' },
-  { to: '/admin/testimonials', icon: FiStar,        label: 'Testimonials' },
-  { to: '/admin/messages',     icon: FiMail,        label: 'Messages' },
+  { to: '/admin/dashboard',       icon: FiGrid,        label: 'Dashboard' },
+  { to: '/admin/tours',           icon: MdOutlineTour, label: 'Tour Packages' },
+  { to: '/admin/tours/new',       icon: FiPlus,        label: 'Add New Tour' },
+  { to: '/admin/testimonials',    icon: FiStar,        label: 'Testimonials' },
+  { to: '/admin/messages',        icon: FiMail,        label: 'Messages' },
+  { to: '/admin/change-password', icon: FiLock,        label: 'Change Password' },
 ];
 
 const API = process.env.REACT_APP_API_URL || 'http://localhost:5000';
