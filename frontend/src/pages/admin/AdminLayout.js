@@ -26,6 +26,7 @@ const AdminLayout = ({ children }) => {
     axios.get(`${API}/api/contact`, authHeader())
       .then(res => setUnread(res.data.filter(m => !m.read).length))
       .catch(() => {});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
   const handleLogout = () => { logout(); navigate('/admin/login'); };
