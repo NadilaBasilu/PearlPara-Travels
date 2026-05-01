@@ -45,7 +45,7 @@ const Contact = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="font-playfair text-2xl font-bold text-deep-navy mb-6">Send a Message</h2>
+          <h2 className="font-display text-2xl font-bold text-deep-navy mb-6">Send a Message</h2>
 
           {status === 'success' && (
             <div className="bg-green-50 border border-green-200 text-green-700 rounded-xl p-4 mb-6 flex items-center gap-3">
@@ -112,7 +112,7 @@ const Contact = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <h2 className="font-playfair text-2xl font-bold text-deep-navy mb-6">Contact Information</h2>
+          <h2 className="font-display text-2xl font-bold text-deep-navy mb-6">Contact Information</h2>
           {contactInfo.map(({ icon, label, value }) => (
             <div key={label} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex items-center gap-4">
               <div className="w-12 h-12 bg-ocean-blue/10 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
@@ -126,7 +126,7 @@ const Contact = () => {
           ))}
 
           <div className="bg-gradient-to-br from-ocean-blue to-ocean-dark rounded-2xl p-6 text-white mt-6">
-            <h3 className="font-playfair text-xl font-bold mb-2">Follow Our Journey</h3>
+            <h3 className="font-display text-xl font-bold mb-2">Follow Our Journey</h3>
             <p className="text-white/80 text-sm mb-4">Stay inspired with daily Sri Lanka travel content.</p>
             <div className="flex gap-3">
               {['Facebook', 'Instagram', 'Twitter'].map(s => (
