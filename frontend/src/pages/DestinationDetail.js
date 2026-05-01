@@ -12,7 +12,7 @@ const DestinationDetail = () => {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24">
         <div className="text-7xl mb-4">🌴</div>
-        <h1 className="font-playfair text-4xl font-bold text-deep-navy mb-3">Destination Not Found</h1>
+        <h1 className="font-display text-4xl font-bold text-deep-navy mb-3">Destination Not Found</h1>
         <p className="text-gray-500 mb-8">This destination doesn't exist or may have moved.</p>
         <Link to="/destinations" className="btn-primary no-underline">Back to Destinations</Link>
       </div>
@@ -40,10 +40,10 @@ const DestinationDetail = () => {
             <span className={`inline-block text-xs font-bold px-4 py-1.5 rounded-full mb-5 uppercase tracking-widest ${categoryColors[dest.category] || 'bg-sunset-orange/90 text-white'}`}>
               {dest.category}
             </span>
-            <h1 className="font-playfair text-5xl md:text-7xl font-bold mb-4 leading-tight drop-shadow-lg">
+            <h1 className="font-display text-5xl md:text-7xl font-bold mb-4 leading-tight drop-shadow-lg">
               {dest.name}
             </h1>
-            <p className="text-xl md:text-2xl text-gold font-playfair italic mb-4">{dest.tagline}</p>
+            <p className="text-xl md:text-2xl text-gold font-display italic mb-4">{dest.tagline}</p>
             <p className="text-white/80 flex items-center justify-center gap-2 text-sm">
               <span>📍</span> {dest.location}
             </p>
@@ -86,7 +86,7 @@ const DestinationDetail = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="text-sunset-orange font-semibold text-sm tracking-widest uppercase">Overview</span>
-          <h2 className="section-title mt-2 mb-6">About {dest.name}</h2>
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-deep-navy mb-4 leading-tight mt-2 mb-6">About {dest.name}</h2>
           <p className="text-gray-600 text-lg leading-relaxed mb-6">{dest.description}</p>
           <div className="space-y-4">
             {dest.about.map((para, i) => (
@@ -145,7 +145,7 @@ const DestinationDetail = () => {
                   {icon}
                 </div>
                 <div>
-                  <h4 className="font-playfair text-lg font-bold text-deep-navy mb-1">{title}</h4>
+                  <h4 className="font-display text-lg font-bold text-deep-navy mb-1">{title}</h4>
                   <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
                 </div>
               </div>
@@ -183,7 +183,7 @@ const DestinationDetail = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h3 className="font-playfair text-3xl font-bold mb-3">Ready to Visit {dest.name}?</h3>
+          <h3 className="font-display text-3xl font-bold mb-3">Ready to Visit {dest.name}?</h3>
           <p className="text-white/80 mb-8 text-lg">Let PearlPara Travels craft the perfect itinerary for you.</p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link to="/contact" className="btn-primary no-underline">Plan My Trip →</Link>
