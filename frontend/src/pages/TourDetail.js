@@ -59,16 +59,13 @@ const TourDetail = () => {
 
   useEffect(() => {
     setLoading(true);
-    // Fetch the specific tour by slug
     axios.get(`${API}/api/tours/${slug}`)
       .then(res => {
         setTour(res.data);
         setLoading(false);
-        // Fetch other tours for sidebar
-        return axios.get(`${API}/api/tours`);
-      })
-      .then(res => {
-        setOtherTours(res.data.filter(t => t.slug !== slug).slice(0, 3));
+        axios.get(`${API}/api/tours`)
+          .then(r => setOtherTours(r.data.filter(t => t.slug !== slug).slice(0, 3)))
+          .catch(() => {});
       })
       .catch(() => { setError('Tour not found.'); setLoading(false); });
   }, [slug]);
