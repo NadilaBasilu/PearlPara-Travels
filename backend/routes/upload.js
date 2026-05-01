@@ -81,7 +81,16 @@ router.post('/multiple', auth, admin, uploadMultiple, (req, res) => {
 
 // DELETE /api/upload/:filename
 router.delete('/:filename', auth, admin, (req, res) => {
-  const filePath = path.join(uploadDir, req.params.filename);
+  // Sanitize filename to prevent path traversal attacks
+  const filename = path.basename(req.params.filename);
+  if (!filename || filename === '.' || filename === '..') {
+    return res.status(400).json({ message: 'Invalid filename' });
+  }
+  const filePath = path.join(uploadDir, filename);
+  // Ensure the resolved path is inside uploadDir
+  if (!filePath.startsWith(uploadDir)) {
+    return res.status(400).json({ message: 'Invalid filename' });
+  }
   if (fs.existsSync(filePath)) {
     fs.unlinkSync(filePath);
     res.json({ message: 'File deleted' });
